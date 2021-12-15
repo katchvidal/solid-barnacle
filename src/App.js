@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { ApolloProvider } from "@apollo/client";
+import { getToken } from "./utils/token";
+import { ToastContainer } from "react-toastify";
+import client from "./apollo/apollo";
+import Auth from "./pages/auth/auth";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const [auth, setauth] = useState(undefined);
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      setauth(null);
+    } else {
+      setauth(token);
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      {!auth ? <Auth /> : <h1>Your Loggin </h1>}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      ></ToastContainer>
+    </ApolloProvider>
   );
 }
 
