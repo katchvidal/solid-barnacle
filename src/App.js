@@ -6,7 +6,7 @@ import { AuthContext } from "./context/AuthContext";
 import client from "./apollo/apollo";
 import Auth from "./pages/auth/auth";
 import "react-toastify/dist/ReactToastify.css";
-import Home from "./pages/home/home";
+import Navigation from "./routes/Navigation";
 
 function App() {
   //  State of App ( Auth / Not Auth )
@@ -45,7 +45,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <AuthContext.Provider value={authData}>
-        {!auth ? <Auth /> : <Home />}
+        {!auth ? <Auth /> : <Navigation />}
         <ToastContainer
           position="top-right"
           autoClose={5000}
