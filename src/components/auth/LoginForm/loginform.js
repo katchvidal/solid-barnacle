@@ -5,10 +5,13 @@ import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../../../graphql/user";
 import { toast } from "react-toastify";
-import { setToken } from "../../../utils/token";
+import { decodeToken, setToken } from "../../../utils/token";
+import useAuth from "../../../hooks/useAuth";
 
 export default function Loginform({ ShowLogin, setShowLogin }) {
   const [login] = useMutation(LOGIN);
+
+  const { setUser } = useAuth();
   const formik = useFormik({
     initialValues: initialValue(),
     validationSchema: Yup.object(validateSchema()),
@@ -28,6 +31,7 @@ export default function Loginform({ ShowLogin, setShowLogin }) {
           icon: "🔓",
         });
         const { token } = data.login;
+        setUser(decodeToken(token));
         setToken(token);
       } catch (error) {
         toast.error(`Something going wrong, try again: ${error.message}`, {
