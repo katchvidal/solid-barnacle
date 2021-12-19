@@ -12,7 +12,11 @@ export default function Navigation() {
             key={index}
             path={route.path}
             exact={route.exact}
-            render={(props) => <route.componnet {...props}></route.componnet>}
+            render={(props) => (
+              <route.layout>
+                <route.componnet {...props}></route.componnet>
+              </route.layout>
+            )}
           ></Route>
         ))}
       </Switch>
