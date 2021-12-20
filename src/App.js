@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ApolloProvider } from "@apollo/client";
-import { getToken } from "./utils/token";
+import { getToken, decodeToken } from "./utils/token";
 import { ToastContainer } from "react-toastify";
 import { AuthContext } from "./context/AuthContext";
 import client from "./apollo/apollo";
@@ -18,7 +18,7 @@ function App() {
     if (!token) {
       setauth(null);
     } else {
-      setauth(token);
+      setauth(decodeToken(token));
     }
   }, []);
 
@@ -42,6 +42,7 @@ function App() {
     [auth]
   );
 
+  if (auth === undefined) return null;
   return (
     <ApolloProvider client={client}>
       <AuthContext.Provider value={authData}>
